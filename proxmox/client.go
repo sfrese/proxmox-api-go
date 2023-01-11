@@ -149,6 +149,23 @@ func (c *Client) GetNodeList() (list map[string]interface{}, err error) {
 	return
 }
 
+func (c *Client) GetPciDeviceList(nodeId string) ([]PciDevice, error) {
+	url := fmt.Sprintf("/nodes/%s/hardware/pci", nodeId)
+	resp, err := c.session.Get(url, nil, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var envelope struct {
+		Data []PciDevice
+	}
+	err = decodeResponse(resp, &envelope)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response envelope: %v", err)
+	}
+	return envelope.Data, nil
+}
+
 // GetResourceList returns a list of all enabled proxmox resources.
 // For resource types that can be in a disabled state, disabled resources
 // will not be returned

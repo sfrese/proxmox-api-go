@@ -6,6 +6,19 @@ import (
 	"net/http"
 )
 
+type PciDevice struct {
+	Vendor              string `json:"vendor"`
+	SubsystemVendorName string `json:"subsystem_vendor_name"`
+	Device              string `json:"device"`
+	ID                  string `json:"id"`
+	SubsystemDevice     string `json:"subsystem_device"`
+	SubsystemVendor     string `json:"subsystem_vendor"`
+	Class               string `json:"class"`
+	DeviceName          string `json:"device_name"`
+	IommuGroup          int    `json:"iommugroup"`
+	VendorName          string `json:"vendor_name"`
+}
+
 func (c *Client) nodeStatusCommand(node, command string) (exitStatus string, err error) {
 	nodes, err := c.GetNodeList()
 	if err != nil {
